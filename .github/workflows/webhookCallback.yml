@@ -4,18 +4,18 @@ on:
   repository_dispatch:
     types: webhookCallback
 
-  jobs:
-    respond:
-      name: Calls the callback being passed in
-      runs-on: ubuntu-18.04
-      steps:
-        - name: callCallback
-          id: callCallback
-          uses: fjogeleit/http-request-action@master
-          with:
-            url: ${{ github.event.client_payload.callbackUri }}
-            method: 'POST'
-            customHeaders: '{ "Content-Type": "application/json" }'
-            data: '{ "success": true, "mdMessage": "Webhook was successful." }'
-        - name: show http response
-          run: echo ${{ steps.callCallback.outputs.response }}
+jobs:
+  respond:
+    name: Calls the callback being passed in
+    runs-on: ubuntu-18.04
+    steps:
+      - name: callCallback
+        id: callCallback
+        uses: fjogeleit/http-request-action@master
+        with:
+          url: ${{ github.event.client_payload.callbackUri }}
+          method: 'POST'
+          customHeaders: '{ "Content-Type": "application/json" }'
+          data: '{ "success": true, "mdMessage": "Webhook was successful." }'
+      - name: show http response
+        run: echo ${{ steps.callCallback.outputs.response }}
