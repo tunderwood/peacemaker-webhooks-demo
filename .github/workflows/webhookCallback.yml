@@ -18,14 +18,14 @@ jobs:
           customHeaders: '{ "Content-Type": "application/x-www-form-urlencoded" }'
           data: 'audience=https://api.staging.cloud.armory.io&grant_type=client_credentials&client_id=${{ secrets.ARMORY_STAGING_CLIENT_ID }}&client_secret=${{ secrets.ARMORY_STAGING_CLIENT_SECRET }}'
       - name: echoToken
-        run: echo '${{ fromJson(steps.getToken.outputs.response).accessToken }} test'
+        run: echo '${{ fromJSON(steps.getToken.outputs.response).accessToken }} test'
       - name: callCallback
         id: callCallback
         uses: fjogeleit/http-request-action@master
         with:
           url: ${{ github.event.client_payload.callbackUri }}
           method: 'POST'
-          bearerToken: ${{ fromJson(steps.getToken.outputs.response).accessToken }}
+          bearerToken: ${{ fromJSON(steps.getToken.outputs.response).accessToken }}
           customHeaders: '{ "Content-Type": "application/json" }'
           data: '{ "success": true, "mdMessage": "Webhook was successful." }'
       - name: show http response
