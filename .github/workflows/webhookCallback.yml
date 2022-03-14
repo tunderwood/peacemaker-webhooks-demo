@@ -18,7 +18,7 @@ jobs:
           customHeaders: '{ "Content-Type": "application/x-www-form-urlencoded" }'
           data: 'audience=https://api.staging.cloud.armory.io&grant_type=client_credentials&client_id=${{ secrets.ARMORY_STAGING_CLIENT_ID }}&client_secret=${{ secrets.ARMORY_STAGING_CLIENT_SECRET }}'
       - name: echoToken
-        run: echo '${{ steps.getToken.outputs.response.access_token }} test'
+        run: echo '${{ steps.getToken.outputs.response }} test'
       - name: callCallback
         id: callCallback
         uses: fjogeleit/http-request-action@master
