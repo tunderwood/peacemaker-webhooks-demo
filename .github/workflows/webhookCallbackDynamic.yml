@@ -2,7 +2,7 @@ name: Webhook Callback
 
 on:
   repository_dispatch:
-    types: webhookCallbackFailure
+    types: webhookCallbackDynamic
 
   jobs:
     respond:
@@ -16,6 +16,6 @@ on:
             url: ${{ github.event.client_payload.callbackUri }}
             method: 'POST'
             customHeaders: '{ "Content-Type": "application/json" }'
-            data: '{ "success": false, "mdMessage": "# Webhook failed!" }'
+            data: '{ "success": ${{ github.event.client_payload.success }}, "mdMessage": ${{ github.event.client_payload.mdMessage }} }'
         - name: show http response
           run: echo ${{ steps.callCallback.outputs.response }}
