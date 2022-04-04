@@ -1,0 +1,21 @@
+name: Webhook Callback
+
+on:
+  repository_dispatch:
+    types: webhookCallbackFailure
+
+  jobs:
+    respond:
+      name: Calls the callback being passed in
+      runs-on: ubuntu-18.04
+      steps:
+        - name: callCallback
+          id: callCallback
+          uses: fjogeleit/http-request-action@master
+          with:
+            url: ${{ github.event.client_payload.callbackUri }}
+            method: 'POST'
+            customHeaders: '{ "Content-Type": "application/json" }'
+            data: '{ "success": false, "mdMessage": "# Webhook failed!" }'
+        - name: show http response
+          run: echo ${{ steps.callCallback.outputs.response }}
