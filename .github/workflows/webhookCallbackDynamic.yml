@@ -25,6 +25,6 @@ jobs:
           method: 'POST'
           bearerToken: ${{ fromJSON(steps.getToken.outputs.response).access_token }}
           customHeaders: '{ "Content-Type": "application/json" }'
-          data: '{ "success": ${{ github.event.client_payload.success }}, "mdMessage": ${{ github.event.client_payload.mdMessage }} }'
+          data: '{ "success": ${{ github.event.client_payload.success }}, "mdMessage": "${{ github.event.client_payload.mdMessage" }} }'
       - name: show http response
         run: echo ${{ steps.callCallback.outputs.response }}
